@@ -6,22 +6,12 @@ import com.example.demo.entity.user.User;
 import com.example.demo.form.FormCreateUser;
 import com.example.demo.form.FormUpdateUser;
 import com.example.demo.repository.UserRepository;
-import com.example.demo.service.user.UserService;
-import jakarta.mail.MessagingException;
-import jakarta.mail.internet.MimeMessage;
 import lombok.AllArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -33,8 +23,8 @@ public class UserServiceImp implements UserService {
     @Override
     public User create(FormCreateUser formCreateUser) {
         User user = new User();
-        user.setFirstName(formCreateUser.getFirstName());
-        user.setLastName(formCreateUser.getLastName());
+        user.setFullName(formCreateUser.getFullName());
+
         user.setPassword(passwordEncoder.encode(formCreateUser.getPassword()));
         user.setEmail(formCreateUser.getEmail());
         user.setGender(formCreateUser.getGender());
@@ -62,8 +52,8 @@ public class UserServiceImp implements UserService {
     @Override
     public User update(FormUpdateUser form, User user) {
         user.setAvatar(form.getAvatar()==null? user.getAvatar() : form.getAvatar());
-        user.setFirstName(form.getFirstName()==null? user.getFirstName() : form.getFirstName());
-        user.setLastName(form.getLastName()==null? user.getLastName() : form.getLastName());
+        user.setFullName(form.getFullName()==null? user.getFullName() : form.getFullName());
+
         if (form.getNewPassword() != null){
             if(!passwordEncoder.matches(form.getOldPassword(), user.getPassword())){
                 throw  new RuntimeException("please check password again");

@@ -4,8 +4,7 @@ import lombok.Data;
 
 @Data
 public class FormUpdateUser {
-    private String firstName;
-    private String lastName;
+    private String fullName;
     private String level;
     private String avatar;
     private String background;
