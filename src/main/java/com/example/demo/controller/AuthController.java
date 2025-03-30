@@ -4,6 +4,7 @@ import com.example.demo.config.CustomUserDetailService;
 import com.example.demo.config.jwt.JwtProvider;
 import com.example.demo.entity.user.User;
 import com.example.demo.entity.user.UserDto;
+import com.example.demo.exception.UserException;
 import com.example.demo.form.FormCreateUser;
 import com.example.demo.form.LoginRequest;
 import com.example.demo.repository.UserRepository;
@@ -12,6 +13,7 @@ import com.example.demo.service.user.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -36,13 +38,12 @@ public class AuthController {
     private UserService userService;
     private UserRepository userRepository;
     @PostMapping("/register")
-    public UserDto create  (@RequestBody FormCreateUser formCreateUser) throws Exception {
+    public ResponseEntity<String> create  (@RequestBody FormCreateUser formCreateUser) throws UserException {
         if (userRepository.findByEmail(formCreateUser.getEmail()).isPresent()) {
-            throw new RuntimeException("Đã tồn tại email này, vui lòng sử dụng email khác");
+            throw new UserException("Đã tồn tại email này, vui lòng sử dụng email khác");
         }
-
-
-        return mapper.map(userService.create(formCreateUser),UserDto.class);
+        mapper.map(userService.create(formCreateUser),UserDto.class);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
     @PostMapping("/signin")
     public AuthResponse signin(@RequestBody LoginRequest login){

@@ -53,7 +53,7 @@ public class SecurityConfig {
                 cfg.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
 
                 cfg.setAllowedHeaders(List.of("Authorization", "Content-Type", "Accept"));
-                cfg.addAllowedHeader(String.valueOf(Collections.singletonList("*")));
+
                 cfg.setExposedHeaders(List.of("Authorization"));
                 cfg.setMaxAge(3600L);
                 return cfg;

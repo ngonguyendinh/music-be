@@ -24,7 +24,6 @@ public class UserServiceImp implements UserService {
     public User create(FormCreateUser formCreateUser) {
         User user = new User();
         user.setFullName(formCreateUser.getFullName());
-
         user.setPassword(passwordEncoder.encode(formCreateUser.getPassword()));
         user.setEmail(formCreateUser.getEmail());
         user.setGender(formCreateUser.getGender());
