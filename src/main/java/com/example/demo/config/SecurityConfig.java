@@ -35,7 +35,7 @@ public class SecurityConfig {
         http.sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .cors(cors ->cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(customizer -> customizer
-                        .requestMatchers("/api/auth/**","/ws/**","/api/songs/play/**","/forgotPassword/**")
+                        .requestMatchers("/api/auth/**","/ws/**","/api/songs/play/**","api/forgotPassword/**")
                         .permitAll().anyRequest()
                         .authenticated())
                 .addFilterBefore(jwtFilter, BasicAuthenticationFilter.class)
@@ -48,7 +48,7 @@ public class SecurityConfig {
             @Override
             public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
                 CorsConfiguration cfg = new CorsConfiguration();
-                cfg.setAllowedOrigins(List.of("http://localhost:3000"));
+                cfg.setAllowedOrigins(List.of("http://localhost:5173"));
                 cfg.setAllowCredentials(true);
                 cfg.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
 
