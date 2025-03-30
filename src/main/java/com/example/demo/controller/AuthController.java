@@ -38,9 +38,9 @@ public class AuthController {
     private UserService userService;
     private UserRepository userRepository;
     @PostMapping("/register")
-    public ResponseEntity<String> create  (@RequestBody FormCreateUser formCreateUser) throws UserException {
+    public ResponseEntity<String> create  (@RequestBody FormCreateUser formCreateUser) throws Exception {
         if (userRepository.findByEmail(formCreateUser.getEmail()).isPresent()) {
-            throw new UserException("Đã tồn tại email này, vui lòng sử dụng email khác");
+            throw new Exception("Đã tồn tại email này, vui lòng sử dụng email khác");
         }
         mapper.map(userService.create(formCreateUser),UserDto.class);
         return new ResponseEntity<>(HttpStatus.CREATED);
